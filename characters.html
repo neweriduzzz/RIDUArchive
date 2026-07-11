@@ -1,4 +1,4 @@
-2<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -180,63 +180,7 @@
 <div class="grid-container" id="characterGrid"> </div>
     </div>
 
-    <script>
-        let activeAttribute = null;
-        let activeJob = null;
 
-        function toggleFilter(type) {
-            const attributes = ['Ether', 'Electric', 'Physical', 'Ice', 'Fire', 'Wind'];
-            const jobs = ['Attack', 'Anomaly', 'Support', 'Stun', 'Defense', 'Rupture'];
-            const eventTarget = event.currentTarget;
-
-            if (attributes.includes(type)) {
-                if (activeAttribute === type) {
-                    activeAttribute = null;
-                    eventTarget.classList.remove('active');
-                } else {
-                    document.querySelectorAll('.filter-row:first-child .filter-btn').forEach(b => b.classList.remove('active'));
-                    activeAttribute = type;
-                    eventTarget.classList.add('active');
-                }
-            } else if (jobs.includes(type)) {
-                if (activeJob === type) {
-                    activeJob = null;
-                    eventTarget.classList.remove('active');
-                } else {
-                    document.querySelectorAll('.filter-row:last-child .filter-btn').forEach(b => b.classList.remove('active'));
-                    activeJob = type;
-                    eventTarget.classList.add('active');
-                }
-            }
-
-            filterCharacters();
-        }
-
-        function filterCharacters() {
-            const cards = document.querySelectorAll('.card');
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
-            
-            cards.forEach(card => {
-                const cardName = card.getAttribute('data-name').toLowerCase();
-                const cardAttr = card.getAttribute('data-attribute');
-                const cardJob = card.getAttribute('data-job');
-                
-                let show = true;
-                
-                // 속성/특성 필터링
-                if (activeAttribute && cardAttr !== activeAttribute) show = false;
-                if (activeJob && cardJob !== activeJob) show = false;
-                
-                // 검색어 필터링
-                if (searchText && !cardName.includes(searchText)) show = false;
-                
-                if (show) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
