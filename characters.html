@@ -6,7 +6,7 @@
     <title>RIDUArchive - 에이전트</title>
     <style>
         body {
-            background-color: #d1d5db; /* 인게임 느낌의 연한 회색 배경 */
+            background-color: #d1d5db;
             color: #000000;
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -15,10 +15,8 @@
             flex-direction: column;
             align-items: center;
         }
-
-        /* 최상단 타이틀 바 */
         .top-header {
-            background-color: #4b5563; /* 어두운 회색 바 */
+            background-color: #4b5563;
             width: 100%;
             text-align: center;
             padding: 10px 0;
@@ -30,8 +28,6 @@
             font-weight: bold;
             letter-spacing: 2px;
         }
-
-        /* 필터 및 검색창 컨테이너 */
         .menu-container {
             width: 100%;
             max-width: 450px;
@@ -42,8 +38,6 @@
             align-items: flex-start;
             gap: 10px;
         }
-
-        /* 아이콘 필터 영역 */
         .filter-section {
             display: flex;
             flex-direction: column;
@@ -69,8 +63,6 @@
             border-color: #ffaa00;
             background-color: rgba(255, 170, 0, 0.2);
         }
-
-        /* 검색창 영역 */
         .search-box {
             position: relative;
             display: flex;
@@ -98,8 +90,6 @@
             margin-left: 5px;
             cursor: pointer;
         }
-
-        /* 캐릭터 그리드 (도련님 이미지 비율에 맞춘 3열 배치) */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -109,8 +99,6 @@
             padding: 10px;
             box-sizing: border-box;
         }
-
-        /* 캐릭터 카드 스타일 (검은색 두꺼운 테두리 및 라운딩) */
         .card {
             background-color: #ffffff;
             border: 3px solid #000000;
@@ -127,8 +115,6 @@
             height: auto;
             display: block;
         }
-
-        /* 캐릭터 이름 영역 */
         .card-name {
             padding: 6px 8px;
             font-size: 14px;
@@ -141,16 +127,12 @@
 </head>
 <body>
 
-    <!-- 최상단 타이틀 바 -->
     <div class="top-header">
         <h1>에이전트</h1>
     </div>
 
-    <!-- 메뉴 영역 -->
     <div class="menu-container">
-        <!-- 좌측: 도련님이 정렬하신 아이콘 배열 그대로 구성 -->
         <div class="filter-section">
-            <!-- 1행 속성: 에테르, 번개, 물리, 얼음, 불, 바람 -->
             <div class="filter-row">
                 <button class="filter-btn" onclick="toggleFilter('Ether')"><img src="Ether.png" alt="에테르"></button>
                 <button class="filter-btn" onclick="toggleFilter('Electric')"><img src="Electric.png" alt="번개"></button>
@@ -159,10 +141,10 @@
                 <button class="filter-btn" onclick="toggleFilter('Fire')"><img src="Fire.png" alt="불"></button>
                 <button class="filter-btn" onclick="toggleFilter('Wind')"><img src="Wind.png" alt="바람"></button>
             </div>
-            <!-- 2행 특성: 강공, 이상, 지원, 격파, 방어, 파멸 -->
             <div class="filter-row">
+                <!-- 엑박 오류 수정: src="Anomaly.png" 추가 완료! -->
                 <button class="filter-btn" onclick="toggleFilter('Attack')"><img src="Attack.png" alt="강공"></button>
-                <button class="filter-btn" onclick="toggleFilter('Anomaly')"><img src="이상"></button>
+                <button class="filter-btn" onclick="toggleFilter('Anomaly')"><img src="Anomaly.png" alt="이상"></button>
                 <button class="filter-btn" onclick="toggleFilter('Support')"><img src="Support.png" alt="지원"></button>
                 <button class="filter-btn" onclick="toggleFilter('Stun')"><img src="Stun.png" alt="격파"></button>
                 <button class="filter-btn" onclick="toggleFilter('Defense')"><img src="Defense.png" alt="방어"></button>
@@ -170,28 +152,24 @@
             </div>
         </div>
 
-        <!-- 우측: 검색창 -->
         <div class="search-box">
             <input type="text" id="searchInput" oninput="filterCharacters()" placeholder="검색...">
             <span class="search-icon">🔍</span>
         </div>
     </div>
 
-    <!-- 캐릭터 리스트 그리드 (3열) -->
     <div class="grid-container" id="characterGrid">
-        <!-- 이블린 카드 -->
-        <div class="card" data-name="이블린" data-attribute="Physical" data-job="Stun">
+        <!-- 판정 수정: 세 캐릭터 모두 Fire(불) / Attack(강공)으로 세팅 완료! -->
+        <div class="card" data-name="이블린" data-attribute="Fire" data-job="Attack">
             <img src="Evelyn.png" alt="이블린">
             <div class="card-name">이블린</div>
         </div>
 
-        <!-- 오피 카드 -->
-        <div class="card" data-name="오르피" data-attribute="Ether" data-job="Anomaly">
+        <div class="card" data-name="오르피" data-attribute="Fire" data-job="Attack">
             <img src="Orphie_Magus.png" alt="오피">
             <div class="card-name">오르피&...</div>
         </div>
 
-        <!-- 11호 카드 -->
         <div class="card" data-name="11호" data-attribute="Fire" data-job="Attack">
             <img src="Soldier11.png" alt="11호">
             <div class="card-name">「11호」</div>
@@ -238,14 +216,10 @@
                 const cardName = card.getAttribute('data-name').toLowerCase();
                 const cardAttr = card.getAttribute('data-attribute');
                 const cardJob = card.getAttribute('data-job');
-                
                 let show = true;
                 
-                // 속성/특성 필터링
                 if (activeAttribute && cardAttr !== activeAttribute) show = false;
                 if (activeJob && cardJob !== activeJob) show = false;
-                
-                // 검색어 필터링
                 if (searchText && !cardName.includes(searchText)) show = false;
                 
                 if (show) {
