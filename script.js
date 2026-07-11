@@ -81,26 +81,52 @@ function filterCharacters(){
 }
 
 // 버튼 색상 업데이트
-function updateButtonState(){
+function toggleFilter(type) {
 
-    document.querySelectorAll(".filter-btn").forEach(btn=>{
+    const attributes = ['Ether', 'Electric', 'Physical', 'Ice', 'Fire', 'Wind'];
+    const jobs = ['Attack', 'Anomaly', 'Support', 'Stun', 'Defense', 'Rupture'];
 
-        btn.classList.remove("active");
+    // 모든 버튼
+    const buttons = document.querySelectorAll(".filter-btn");
 
-        const onclick=btn.getAttribute("onclick");
+    if (attributes.includes(type)) {
 
-        if(!onclick) return;
+        // 속성 버튼 노란 테두리 제거
+        buttons.forEach(btn => {
+            const onclick = btn.getAttribute("onclick");
+            if (onclick && attributes.some(a => onclick.includes(a))) {
+                btn.classList.remove("active");
+            }
+        });
 
-        const type=onclick.match(/'(.+?)'/)[1];
-
-        if(type===activeAttribute || type===activeJob){
-            btn.classList.add("active");
+        if (activeAttribute === type) {
+            activeAttribute = null;
+        } else {
+            activeAttribute = type;
+            event.currentTarget.classList.add("active");
         }
 
-    });
+    } else {
 
+        // 특성 버튼 노란 테두리 제거
+        buttons.forEach(btn => {
+            const onclick = btn.getAttribute("onclick");
+            if (onclick && jobs.some(j => onclick.includes(j))) {
+                btn.classList.remove("active");
+            }
+        });
+
+        if (activeJob === type) {
+            activeJob = null;
+        } else {
+            activeJob = type;
+            event.currentTarget.classList.add("active");
+        }
+
+    }
+
+    filterCharacters();
 }
-
 // 필터
 function toggleFilter(type){
 
