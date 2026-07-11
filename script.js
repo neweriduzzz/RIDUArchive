@@ -22,7 +22,7 @@ const characters = [
         id: "오르페우스",
         name: "오피&「도깨비불」",
         rank: "S",
-        faction: "운명의 심판",
+        faction: "오볼로스 소대",
         attr: "Fire",
         job: "Attack",
         img: "Orphie_Magus.png"
@@ -93,6 +93,21 @@ function renderCharacters() {
                     ${character.name}<br>
 
                     <small>${character.faction}</small>
+                    
+                    document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.remove("active");
+});
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    const value = btn.getAttribute("onclick");
+
+    if (
+        (activeAttribute && value.includes(activeAttribute)) ||
+        (activeJob && value.includes(activeJob))
+    ) {
+        btn.classList.add("active");
+    }
+});
 
                 </div>
 
