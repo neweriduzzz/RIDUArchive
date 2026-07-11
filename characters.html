@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>에이전트</title>
+    <title>에이전트 도감</title>
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -69,33 +69,37 @@
             color: #000000;
             font-weight: bold;
         }
-        /* 캐릭터 그리드 스타일 - 중복 영역 제거 및 최적화 */
+        /* 캐릭터 그리드 스타일 */
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
         }
         .character-card {
-            background-color: transparent;
-            border-radius: 14px;
+            background-color: #1e1e1e;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-            border: 3px solid transparent;
-            cursor: pointer;
-            /* 세로 비율을 이미지 본연의 비율에 맞춤 */
-            aspect-ratio: 3 / 4; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
+            border: 1px solid #2d2d2d;
+            text-align: center;
         }
         .character-card:hover {
             transform: translateY(-5px);
             border-color: #ffcc00;
         }
-        .character-card img {
+        /* 카드 안에 이미지가 꽉 차고 짤리지 않게 보존 */
+        .char-img-container {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            background-color: #2a2a2a;
+            overflow: hidden;
+        }
+        .char-img-container img {
+            width: 100%;
+            height: auto;
             display: block;
         }
     </style>
@@ -134,17 +138,23 @@
     <div class="character-grid" id="characterGrid">
         <!-- 이블린 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <img src="Evelyn.png" alt="이블린">
+            <div class="char-img-container">
+                <img src="Evelyn.png" alt="이블린">
+            </div>
         </div>
 
         <!-- 11호 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <img src="No11.png" alt="11호">
+            <div class="char-img-container">
+                <img src="No11.png" alt="11호">
+            </div>
         </div>
 
         <!-- 오르피 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <img src="Orphy.png" alt="오르피">
+            <div class="char-img-container">
+                <img src="Orphy.png" alt="오르피">
+            </div>
         </div>
     </div>
 
@@ -153,6 +163,7 @@
         let currentJob = 'all';
 
         function filterAttribute(attr, btn) {
+            // 속성 버튼 활성화 클래스 토글
             const buttons = btn.parentElement.querySelectorAll('.filter-btn');
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -162,6 +173,7 @@
         }
 
         function filterJob(job, btn) {
+            // 특성 버튼 활성화 클래스 토글
             const buttons = btn.parentElement.querySelectorAll('.filter-btn');
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
