@@ -165,7 +165,8 @@ function toggleFilter(type) {
         "Electric",
         "Physical",
         "Ice",
-        "Fire"
+        "Fire",
+        "Wind"
     ];
 
     const jobs = [
