@@ -3,59 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIDUArchive - 젠레스 존 제로 정보</title>
+    <title>RIDUArchive</title>
     <style>
         body {
-            background-color: #121214;
+            background-color: #121212;
             color: #ffffff;
-            font-family: 'Malgun Gothic', sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-        header {
+        .main-container {
             text-align: center;
-            margin-top: 50px;
-            margin-bottom: 30px;
+            padding: 20px;
         }
         h1 {
-            color: #ffaa00;
-            font-size: 2.5rem;
+            font-size: 32px;
             margin-bottom: 10px;
+            letter-spacing: 1px;
         }
         p {
-            color: #a0a0a5;
-            font-size: 1.1rem;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-            background-color: #1e1e22;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-        .welcome-msg {
-            line-height: 1.6;
+            color: #9ca3af;
+            font-size: 16px;
             margin-bottom: 30px;
+        }
+        .enter-btn {
+            display: inline-block;
+            background-color: #ffaa00;
+            color: #000000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+        }
+        .enter-btn:hover {
+            transform: scale(1.05);
+            background-color: #ffbb33;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>RIDUArchive</h1>
-        <p>젠레스 존 제로 정보 아카이브</p>
-    </header>
-
-    <div class="container">
-        <p class="welcome-msg">
-            안녕하세요! 뉴에리두의 모든 정보를 모아두는 공간입니다.<br>
-            현재 리사와 함께 도련님만의 사이트를 건축 중이랍니다 🛠️
-        </p>
+    <div class="main-container">
+        <h1>리두보관소</h1>
+        <p>리두보관소에 오신 것을 환영합니다</p>
+        
+        <!-- 이 버튼을 누르면 characters.html로 이동합니다! -->
+        <a href="characters.html" class="enter-btn">에이전트</a>
     </div>
 
 </body>
