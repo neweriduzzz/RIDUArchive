@@ -24,7 +24,7 @@
             background-color: #1e1e1e;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0,5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .filter-group {
             display: flex;
@@ -72,56 +72,31 @@
         /* 캐릭터 그리드 스타일 */
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
+        /* 카드 외곽 잘림 현상을 해결한 카드 스타일 */
         .character-card {
-            background-color: #1e1e1e;
-            border-radius: 12px;
+            background-color: transparent;
+            border-radius: 0; /* 모서리를 깎지 않아 원본의 검은 테두리가 칼같이 살아납니다 */
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.2s ease;
-            border: 1px solid #2d2d2d;
-            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            border: 3px solid transparent;
+            cursor: pointer;
+            aspect-ratio: 3 / 4; /* 카드 비율에 맞게 이미지 노출 */
         }
         .character-card:hover {
             transform: translateY(-5px);
-            border-color: #ffcc00;
+            border-color: #ffcc00; /* 마우스 올렸을 때 노란 강조선 */
         }
-        .char-img-container {
-            width: 100%;
-            height: 240px;
-            background-color: #2a2a2a;
-            overflow: hidden;
-        }
-        .char-img-container img {
+        .character-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        .char-info {
-            padding: 15px;
-        }
-        .char-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-        .char-tags {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .char-tag-icon {
-            width: 24px;
-            height: 24px;
-            background-color: #2a2a2a;
-            border-radius: 6px;
-            padding: 4px;
-            object-fit: contain;
+            display: block;
         }
     </style>
 </head>
@@ -159,44 +134,17 @@
     <div class="character-grid" id="characterGrid">
         <!-- 이블린 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <div class="char-img-container">
-                <img src="Evelyn.png" alt="이블린">
-            </div>
-            <div class="char-info">
-                <div class="char-name">이블린</div>
-                <div class="char-tags">
-                    <img class="char-tag-icon" src="Fire.png" title="불 속성" alt="불">
-                    <img class="char-tag-icon" src="Attack.png" title="강공 특성" alt="강공">
-                </div>
-            </div>
+            <img src="Evelyn.png" alt="이블린">
         </div>
 
         <!-- 11호 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <div class="char-img-container">
-                <img src="No11.png" alt="11호">
-            </div>
-            <div class="char-info">
-                <div class="char-name">11호</div>
-                <div class="char-tags">
-                    <img class="char-tag-icon" src="Fire.png" title="불 속성" alt="불">
-                    <img class="char-tag-icon" src="Attack.png" title="강공 특성" alt="강공">
-                </div>
-            </div>
+            <img src="No11.png" alt="11호">
         </div>
 
         <!-- 오르피 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <div class="char-img-container">
-                <img src="Orphy.png" alt="오르피">
-            </div>
-            <div class="char-info">
-                <div class="char-name">오르피</div>
-                <div class="char-tags">
-                    <img class="char-tag-icon" src="Fire.png" title="불 속성" alt="불">
-                    <img class="char-tag-icon" src="Attack.png" title="강공 특성" alt="강공">
-                </div>
-            </div>
+            <img src="Orphy.png" alt="오르피">
         </div>
     </div>
 
@@ -205,7 +153,6 @@
         let currentJob = 'all';
 
         function filterAttribute(attr, btn) {
-            // 속성 버튼 활성화 클래스 토글
             const buttons = btn.parentElement.querySelectorAll('.filter-btn');
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -215,7 +162,6 @@
         }
 
         function filterJob(job, btn) {
-            // 특성 버튼 활성화 클래스 토글
             const buttons = btn.parentElement.querySelectorAll('.filter-btn');
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
