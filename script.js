@@ -9,6 +9,7 @@
 const characters = [
 
     {
+        id: "하늘다람쥐",
         name: "이블린",
         rank: "S",
         faction: "스타즈 오브 리라",
@@ -18,6 +19,7 @@ const characters = [
     },
 
     {
+        id: "오르페우스",
         name: "오피&「도깨비불」",
         rank: "S",
         faction: "운명의 심판",
@@ -27,6 +29,7 @@ const characters = [
     },
 
     {
+        id: "하린",
         name: "11호",
         rank: "S",
         faction: "오볼스 소대",
