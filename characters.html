@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>에이전트</title>
+    <title>에이전트 도감</title>
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -12,232 +12,29 @@
             margin: 0;
             padding: 20px;
         }
-        h1 {
-            text-align: center;
-            color: #ffcc00;
-            margin-bottom: 30px;
-        }
-        /* 필터 섹션 스타일 */
-        .filter-container {
-            max-width: 1200px;
-            margin: 0 auto 30px auto;
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0,5);
-        }
-        .filter-group {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .filter-group:last-child {
-            margin-bottom: 0;
-        }
-        .filter-label {
-            font-weight: bold;
-            min-width: 60px;
-            color: #aaaaaa;
-        }
-        .filter-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #2a2a2a;
-            border: 2px solid #3a3a3a;
-            border-radius: 8px;
-            padding: 8px 14px;
-            color: #ffffff;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-        }
-        .filter-btn img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-        .filter-btn:hover {
-            border-color: #ffcc00;
-            background-color: #333333;
-        }
-        .filter-btn.active {
-            background-color: #ffcc00;
-            border-color: #ffcc00;
-            color: #000000;
-            font-weight: bold;
-        }
-        /* 캐릭터 그리드 스타일 */
-        .character-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .character-card {
-            background-color: #1e1e1e;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.2s ease;
-            border: 1px solid #2d2d2d;
-            text-align: center;
-        }
-        .character-card:hover {
-            transform: translateY(-5px);
-            border-color: #ffcc00;
-        }
-        .char-img-container {
-            width: 100%;
-            height: 240px;
-            background-color: #2a2a2a;
-            overflow: hidden;
-        }
-        .char-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .char-info {
-            padding: 15px;
-        }
-        .char-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-        .char-tags {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .char-tag-icon {
-            width: 24px;
-            height: 24px;
-            background-color: #2a2a2a;
-            border-radius: 6px;
-            padding: 4px;
-            object-fit: contain;
-        }
+        h1 { text-align: center; color: #ffcc00; margin-bottom: 30px; }
+
+        /* 필터 섹션 */
+        .filter-container { max-width: 1200px; margin: 0 auto 30px auto; background-color: #1e1e1e; padding: 20px; border-radius: 12px; }
+        .filter-group { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .filter-label { font-weight: bold; min-width: 60px; color: #aaaaaa; }
+        .filter-btn { display: flex; align-items: center; gap: 8px; background-color: #2a2a2a; border: 2px solid #3a3a3a; border-radius: 8px; padding: 8px 14px; color: #ffffff; cursor: pointer; }
+        .filter-btn.active { background-color: #ffcc00; color: #000000; font-weight: bold; }
+        #searchInput { width: 100%; max-width: 1200px; margin: 0 auto; display: block; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 6px; }
+
+        /* 그리드 및 카드 */
+        .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; max-width: 1200px; margin: 20px auto; }
+        .character-card { background-color: #1e1e1e; border-radius: 12px; overflow: hidden; border: 1px solid #2d2d2d; transition: transform 0.2s; }
+        .character-card:hover { transform: translateY(-5px); border-color: #ffcc00; }
+        
+        /* 이미지 영역: 이름 박스 제거됨 */
+        .char-img-container { width: 100%; }
+        .char-img-container img { width: 100%; display: block; }
     </style>
 </head>
 <body>
 
-    <h1>에이전트</h1>
+    <h1>에이전트 도감</h1>
 
-    <!-- 필터 섹션 -->
     <div class="filter-container">
-        <!-- 속성 필터 -->
-        <div class="filter-group">
-            <span class="filter-label">속성</span>
-            <button class="filter-btn active" onclick="filterAttribute('all', this)">전체</button>
-            <button class="filter-btn" onclick="filterAttribute('Ether', this)"><img src="Ether.png" alt="에테르">에테르</button>
-            <button class="filter-btn" onclick="filterAttribute('Electric', this)"><img src="Electric.png" alt="전기">전기</button>
-            <button class="filter-btn" onclick="filterAttribute('Physical', this)"><img src="Physical.png" alt="물리">물리</button>
-            <button class="filter-btn" onclick="filterAttribute('Ice', this)"><img src="Ice.png" alt="얼음">얼음</button>
-            <button class="filter-btn" onclick="filterAttribute('Fire', this)"><img src="Fire.png" alt="불">불</button>
-            <button class="filter-btn" onclick="filterAttribute('Wind', this)"><img src="Wind.png" alt="바람">바람</button>
-        </div>
-        <!-- 특성 필터 -->
-        <div class="filter-group">
-            <span class="filter-label">특성</span>
-            <button class="filter-btn active" onclick="filterJob('all', this)">전체</button>
-            <button class="filter-btn" onclick="filterJob('Attack', this)"><img src="Attack.png" alt="강공">강공</button>
-            <button class="filter-btn" onclick="filterJob('Anomaly', this)"><img src="Anomaly.png" alt="이상">이상</button>
-            <button class="filter-btn" onclick="filterJob('Rupture', this)"><img src="Rupture.png" alt="명파">명파</button>
-            <button class="filter-btn" onclick="filterJob('Stun', this)"><img src="Stun.png" alt="격파">격파</button>
-            <button class="filter-btn" onclick="filterJob('Defense', this)"><img src="Defense.png" alt="방어">방어</button>
-            <button class="filter-btn" onclick="filterJob('Support', this)"><img src="Support.png" alt="지원">지원</button>
-        </div>
-    </div>
-
-    <!-- 캐릭터 그리드 -->
-    <div class="character-grid" id="characterGrid">
-        <!-- 이블린 카드 -->
-        <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <div class="char-img-container">
-                <img src="Evelyn.png" alt="이블린">
-            </div>
-            <div class="char-info">
-                <div class="char-name">이블린</div>
-                <div class="char-tags">
-                    <img class="char-tag-icon" src="Fire.png" title="불 속성" alt="불">
-                    <img class="char-tag-icon" src="Attack.png" title="강공 특성" alt="강공">
-                </div>
-            </div>
-        </div>
-
-        <!-- 11호 카드 -->
-        <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <div class="char-img-container">
-                <img src="No11.png" alt="11호">
-            </div>
-            <div class="char-info">
-                <div class="char-name">11호</div>
-                <div class="char-tags">
-                    <img class="char-tag-icon" src="Fire.png" title="불 속성" alt="불">
-                    <img class="char-tag-icon" src="Attack.png" title="강공 특성" alt="강공">
-                </div>
-            </div>
-        </div>
-
-        <!-- 오피 카드 -->
-        <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <div class="char-img-container">
-                <img src="Orphy.png" alt="오피&Amp;「도깨비불」">
-            </div>
-            <div class="char-info">
-                <div class="char-name">오피&「도깨비불」</div>
-                <div class="char-tags">
-                    <img class="char-tag-icon" src="Fire.png" title="불 속성" alt="불">
-                    <img class="char-tag-icon" src="Attack.png" title="강공 특성" alt="강공">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentAttribute = 'all';
-        let currentJob = 'all';
-
-        function filterAttribute(attr, btn) {
-            // 속성 버튼 활성화 클래스 토글
-            const buttons = btn.parentElement.querySelectorAll('.filter-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            currentAttribute = attr;
-            applyFilters();
-        }
-
-        function filterJob(job, btn) {
-            // 특성 버튼 활성화 클래스 토글
-            const buttons = btn.parentElement.querySelectorAll('.filter-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            currentJob = job;
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const cards = document.querySelectorAll('.character-card');
-            
-            cards.forEach(card => {
-                const attrMatch = (currentAttribute === 'all' || card.getAttribute('data-attribute') === currentAttribute);
-                const jobMatch = (currentJob === 'all' || card.getAttribute('data-job') === currentJob);
-                
-                if (attrMatch && jobMatch) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+        <input type="text"
