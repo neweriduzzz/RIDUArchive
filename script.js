@@ -1,15 +1,11 @@
 // =======================================
-// RIDUArchive - Character System v1.0
+// RIDUArchive Character System
 // =======================================
 
-// ==============================
 // 캐릭터 데이터
-// ==============================
-
 const characters = [
-
     {
-        id: "하늘다람쥐",
+        id: "evelyn",
         name: "이블린",
         rank: "S",
         faction: "스타즈 오브 리라",
@@ -19,17 +15,17 @@ const characters = [
     },
 
     {
-        id: "오르페우스",
+        id: "orphie",
         name: "오피&「도깨비불」",
         rank: "S",
-        faction: "오볼로스 소대",
+        faction: "운명의 심판",
         attr: "Fire",
         job: "Attack",
         img: "Orphie_Magus.png"
     },
 
     {
-        id: "하린",
+        id: "soldier11",
         name: "11호",
         rank: "S",
         faction: "오볼스 소대",
@@ -37,21 +33,17 @@ const characters = [
         job: "Attack",
         img: "Soldier11.png"
     }
-
 ];
 
 
-// ==============================
-// 현재 선택된 필터
-// ==============================
-
+// 현재 필터
 let activeAttribute = null;
 let activeJob = null;
 
 
-// ==============================
+// ==========================
 // 캐릭터 출력
-// ==============================
+// ==========================
 
 function renderCharacters() {
 
@@ -59,90 +51,121 @@ function renderCharacters() {
 
     if (!grid) return;
 
-    const searchInput = document.getElementById("searchInput");
-
-    const search = searchInput
-        ? searchInput.value.toLowerCase()
-        : "";
+    const search =
+        document.getElementById("searchInput")
+        ?.value
+        .toLowerCase() || "";
 
     grid.innerHTML = "";
 
-    characters.forEach(character => {
+    const filteredCharacters = characters.filter(character => {
 
-        // 속성 필터
-        if (activeAttribute && character.attr !== activeAttribute) return;
+        if (
+            activeAttribute &&
+            character.attr !== activeAttribute
+        ) {
+            return false;
+        }
 
-        // 특성 필터
-        if (activeJob && character.job !== activeJob) return;
+        if (
+            activeJob &&
+            character.job !== activeJob
+        ) {
+            return false;
+        }
 
-        // 검색
-        if (!character.name.toLowerCase().includes(search)) return;
+        if (
+            !character.name.toLowerCase().includes(search) &&
+            !character.faction.toLowerCase().includes(search)
+        ) {
+            return false;
+        }
+
+        return true;
+    });
+
+    if (filteredCharacters.length === 0) {
+
+        grid.innerHTML = `
+            <div style="
+                grid-column:1/-1;
+                text-align:center;
+                font-weight:bold;
+                padding:20px;
+            ">
+                검색 결과가 없습니다.
+            </div>
+        `;
+
+        return;
+    }
+
+    filteredCharacters.forEach(character => {
 
         grid.innerHTML += `
             <div class="card"
-                data-name="${character.name}"
-                data-attribute="${character.attr}"
-                data-job="${character.job}">
+                 onclick="openCharacter('${character.id}')">
 
                 <img src="${character.img}" alt="${character.name}">
 
                 <div class="card-name">
-
                     <strong>${character.rank} Rank</strong><br>
-
                     ${character.name}<br>
-
                     <small>${character.faction}</small>
-                    
-                    document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.classList.remove("active");
-});
-
-document.querySelectorAll(".filter-btn").forEach(btn => {
-    const value = btn.getAttribute("onclick");
-
-    if (
-        (activeAttribute && value.includes(activeAttribute)) ||
-        (activeJob && value.includes(activeJob))
-    ) {
-        btn.classList.add("active");
-    }
-});
-
                 </div>
 
             </div>
         `;
-
     });
-
 }
 
 
-// ==============================
+// ==========================
 // 검색
-// ==============================
+// ==========================
 
 function filterCharacters() {
-
     renderCharacters();
-
 }
 
 
-// ==============================
+// ==========================
+// 필터 버튼 활성화
+// ==========================
+
+function updateFilterButtons() {
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+            const filter =
+                btn.dataset.filter;
+
+            if (
+                filter === activeAttribute ||
+                filter === activeJob
+            ) {
+                btn.classList.add("active");
+            }
+        });
+}
+
+
+// ==========================
 // 필터
-// ==============================
+// ==========================
 
 function toggleFilter(type) {
 
-    const attrs = [
+    const attributes = [
         "Ether",
         "Electric",
         "Physical",
         "Ice",
-        "Fire",
-        "Wind"
+        "Fire"
     ];
 
     const jobs = [
@@ -154,33 +177,44 @@ function toggleFilter(type) {
         "Rupture"
     ];
 
-    if (attrs.includes(type)) {
+    if (attributes.includes(type)) {
 
-        if (activeAttribute === type) {
-            activeAttribute = null;
-        } else {
-            activeAttribute = type;
-        }
-
+        activeAttribute =
+            activeAttribute === type
+            ? null
+            : type;
     }
 
     if (jobs.includes(type)) {
 
-        if (activeJob === type) {
-            activeJob = null;
-        } else {
-            activeJob = type;
-        }
-
+        activeJob =
+            activeJob === type
+            ? null
+            : type;
     }
 
+    updateFilterButtons();
     renderCharacters();
-
 }
 
 
-// ==============================
-// 시작
-// ==============================
+// ==========================
+// 카드 클릭
+// ==========================
 
+function openCharacter(id) {
+
+    console.log("선택:", id);
+
+    // 나중에 상세 페이지 연결
+    // window.location.href =
+    //     `character.html?id=${id}`;
+}
+
+
+// ==========================
+// 시작
+// ==========================
+
+updateFilterButtons();
 renderCharacters();
