@@ -3,163 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>에이전트 도감</title>
+    <title>에이전트</title>
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #b9bec4; /* 도련님 사이트의 깔끔한 연회색 배경 */
-            color: #333333;
+            background-color: #121212;
+            color: #ffffff;
             margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
-            color: #ffffff;
-            background-color: #3b4856; /* 상단 타이틀 바 색상 */
-            margin: -20px -20px 20px -20px;
-            padding: 15px;
-            font-size: 24px;
+            color: #ffcc00;
+            margin-bottom: 30px;
         }
-        /* 필터 및 검색 레이아웃 */
-        .filter-search-container {
-            max-width: 600px;
-            margin: 0 auto 20px auto;
-            background-color: #cbd1d6;
-            padding: 15px;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        /* 필터 섹션 스타일 */
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .filter-row {
+        .filter-group {
             display: flex;
             align-items: center;
-            gap: 6px;
             flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-        .search-box {
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+        .filter-label {
+            font-weight: bold;
+            min-width: 60px;
+            color: #aaaaaa;
+        }
+        .filter-btn {
             display: flex;
             align-items: center;
-            background-color: #4a5563;
-            padding: 5px 10px;
-            border-radius: 4px;
-            margin-left: auto;
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: white;
-            outline: none;
-            width: 80px;
+            gap: 8px;
+            background-color: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 8px 14px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s ease;
             font-size: 14px;
         }
-        .search-box input::placeholder {
-            color: #9ca3af;
-        }
-        /* 필터 버튼 스타일 */
-        .filter-btn {
-            background-color: #4a5563;
-            border: none;
-            border-radius: 4px;
-            padding: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-        }
         .filter-btn img {
-            width: 100%;
-            height: 100%;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
         }
+        .filter-btn:hover {
+            border-color: #ffcc00;
+            background-color: #333333;
+        }
         .filter-btn.active {
-            background-color: #ffcc00; /* 활성화된 버튼 노란색 */
-        }
-        .filter-text-btn {
             background-color: #ffcc00;
-            border: none;
-            border-radius: 4px;
-            padding: 6px 12px;
+            border-color: #ffcc00;
+            color: #000000;
             font-weight: bold;
-            cursor: pointer;
-            height: 36px;
         }
-        
-        /* ----------------------------------------- */
-        /* 도련님이 요청하신 캐릭터 카드 스타일 최적화 */
-        /* ----------------------------------------- */
+        /* 캐릭터 그리드 스타일 - 중복 영역 제거 및 최적화 */
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 12px;
-            max-width: 600px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         .character-card {
             background-color: transparent;
-            border-radius: 0; /* 강제로 모서리를 깎지 않아 원본의 검은 테두리가 칼같이 살아납니다 */
+            border-radius: 14px;
             overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            border: 3px solid transparent;
             cursor: pointer;
-            display: block;
+            /* 세로 비율을 이미지 본연의 비율에 맞춤 */
+            aspect-ratio: 3 / 4; 
+        }
+        .character-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffcc00;
         }
         .character-card img {
             width: 100%;
-            height: auto; /* 이미지 고유 비율을 완벽하게 유지 */
+            height: 100%;
+            object-fit: cover;
             display: block;
-            border-radius: 0;
         }
     </style>
 </head>
 <body>
 
-    <h1>에이전트</h1>
+    <h1>에이전트 도감</h1>
 
-    <!-- 필터 및 검색 섹션 -->
-    <div class="filter-search-container">
+    <!-- 필터 섹션 -->
+    <div class="filter-container">
         <!-- 속성 필터 -->
-        <div class="filter-row">
-            <button class="filter-text-btn" onclick="filterAttribute('all', this)">전체</button>
-            <button class="filter-btn" onclick="filterAttribute('Ether', this)"><img src="Ether.png" alt="에테르"></button>
-            <button class="filter-btn" onclick="filterAttribute('Electric', this)"><img src="Electric.png" alt="전기"></button>
-            <button class="filter-btn" onclick="filterAttribute('Physical', this)"><img src="Physical.png" alt="물리"></button>
-            <button class="filter-btn" onclick="filterAttribute('Ice', this)"><img src="Ice.png" alt="얼음"></button>
-            <button class="filter-btn" onclick="filterAttribute('Fire', this)"><img src="Fire.png" alt="불"></button>
-            <button class="filter-btn" onclick="filterAttribute('Wind', this)"><img src="Wind.png" alt="바람"></button>
-            
-            <!-- 검색창 -->
-            <div class="search-box">
-                <input type="text" placeholder="검색...">
-                <span>🔍</span>
-            </div>
+        <div class="filter-group">
+            <span class="filter-label">속성</span>
+            <button class="filter-btn active" onclick="filterAttribute('all', this)">전체</button>
+            <button class="filter-btn" onclick="filterAttribute('Ether', this)"><img src="Ether.png" alt="에테르">에테르</button>
+            <button class="filter-btn" onclick="filterAttribute('Electric', this)"><img src="Electric.png" alt="전기">전기</button>
+            <button class="filter-btn" onclick="filterAttribute('Physical', this)"><img src="Physical.png" alt="물리">물리</button>
+            <button class="filter-btn" onclick="filterAttribute('Ice', this)"><img src="Ice.png" alt="얼음">얼음</button>
+            <button class="filter-btn" onclick="filterAttribute('Fire', this)"><img src="Fire.png" alt="불">불</button>
+            <button class="filter-btn" onclick="filterAttribute('Wind', this)"><img src="Wind.png" alt="바람">바람</button>
         </div>
         <!-- 특성 필터 -->
-        <div class="filter-row">
-            <button class="filter-btn" onclick="filterJob('Attack', this)"><img src="Attack.png" alt="강공"></button>
-            <button class="filter-btn" onclick="filterJob('Anomaly', this)"><img src="Anomaly.png" alt="이상"></button>
-            <button class="filter-btn" onclick="filterJob('Rupture', this)"><img src="Rupture.png" alt="명파"></button>
-            <button class="filter-btn" onclick="filterJob('Stun', this)"><img src="Stun.png" alt="격파"></button>
-            <button class="filter-btn" onclick="filterJob('Defense', this)"><img src="Defense.png" alt="방어"></button>
-            <button class="filter-btn" onclick="filterJob('Support', this)"><img src="Support.png" alt="지원"></button>
+        <div class="filter-group">
+            <span class="filter-label">특성</span>
+            <button class="filter-btn active" onclick="filterJob('all', this)">전체</button>
+            <button class="filter-btn" onclick="filterJob('Attack', this)"><img src="Attack.png" alt="강공">강공</button>
+            <button class="filter-btn" onclick="filterJob('Anomaly', this)"><img src="Anomaly.png" alt="이상">이상</button>
+            <button class="filter-btn" onclick="filterJob('Rupture', this)"><img src="Rupture.png" alt="명파">명파</button>
+            <button class="filter-btn" onclick="filterJob('Stun', this)"><img src="Stun.png" alt="격파">격파</button>
+            <button class="filter-btn" onclick="filterJob('Defense', this)"><img src="Defense.png" alt="방어">방어</button>
+            <button class="filter-btn" onclick="filterJob('Support', this)"><img src="Support.png" alt="지원">지원</button>
         </div>
     </div>
 
-    <!-- 캐릭터 그리드 (하단 중복 이름 박스를 완전히 제거) -->
+    <!-- 캐릭터 그리드 -->
     <div class="character-grid" id="characterGrid">
         <!-- 이블린 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
             <img src="Evelyn.png" alt="이블린">
         </div>
 
-        <!-- 오르피 카드 -->
-        <div class="character-card" data-attribute="Fire" data-job="Attack">
-            <img src="Orphy.png" alt="오르피">
-        </div>
-
         <!-- 11호 카드 -->
         <div class="character-card" data-attribute="Fire" data-job="Attack">
             <img src="No11.png" alt="11호">
+        </div>
+
+        <!-- 오르피 카드 -->
+        <div class="character-card" data-attribute="Fire" data-job="Attack">
+            <img src="Orphy.png" alt="오르피">
         </div>
     </div>
 
@@ -168,11 +153,19 @@
         let currentJob = 'all';
 
         function filterAttribute(attr, btn) {
+            const buttons = btn.parentElement.querySelectorAll('.filter-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
             currentAttribute = attr;
             applyFilters();
         }
 
         function filterJob(job, btn) {
+            const buttons = btn.parentElement.querySelectorAll('.filter-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
             currentJob = job;
             applyFilters();
         }
